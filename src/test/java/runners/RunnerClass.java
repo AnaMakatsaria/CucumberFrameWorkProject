@@ -12,7 +12,7 @@ import utils.CommonMethods;
         //connecting feature files to steps with the glue keyword
         glue="steps",
         //dryRun provides missing step definition when true, and executes code when false
-        dryRun = false,
+        dryRun = true,
         // true tags we can control, and filter test execution
         tags= "@Login",
         plugin={"pretty","html:target/cucumber.html","json:target/cucumber.json"}

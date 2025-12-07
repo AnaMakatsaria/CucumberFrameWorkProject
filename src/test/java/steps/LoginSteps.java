@@ -16,77 +16,59 @@ import utils.ConfigReader;
 import java.beans.Visibility;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 
 public class LoginSteps extends CommonMethods {
-    @Given("User is on HRM login page")
-
-    public void user_is_on_hrm_login_page() throws IOException {
-        openBrowserAndLaunchApplication();
+    @Given("User is navigated into HRMS Website")
+    public void user_is_navigated_into_hrms_website() throws IOException {
+      openBrowserAndLaunchApplication();
     }
-
-    @When("User leaves userName filed empty")
-    public void user_leaves_user_name_filed_empty() {
-        //intentionally leaving empty
+    @When("User enters {string} {string} as login credentials")
+    public void user_enters_as_login_credentials(String userName, String password) {
+       sendText(userName, loginPage.userNameField);
+       sendText(password, loginPage.passwordField);
     }
-   
-    @When("User enters a valid password")
-    public void user_enters_a_valid_password() throws IOException, InterruptedException {
-       getWait().until(ExpectedConditions.visibilityOf(loginPage.passwordField));
-        sendText(ConfigReader.read("password"), loginPage.passwordField);
-    }
-
     @When("User clicks on the Login button")
     public void user_clicks_on_the_login_button() {
-       click(loginPage.loginButtonField);
+        click(loginPage.loginButtonField);
     }
-
-    @Then("System displays {string} near the userName field")
-    public void system_displays_near_the_user_name_field(String expectedErrorMessage) {
-        String actualErrorMessage =loginPage.loginErrorField.getText();
-        Assert.assertEquals(expectedErrorMessage,actualErrorMessage);
-    }
-
-    @When("User enters a valid userName")
-    public void user_enters_a_valid_user_name() throws IOException {
-       sendText(ConfigReader.read("userName"),loginPage.UserNameField);
-    }
-    @When("User leaves a password empty")
-    public void user_leaves_a_password_empty() {
-        //intentionally leaving empty
-    }
-    @Then("System displays {string} near the password field")
-    public void system_displays_near_the_password_field(String expectedErrorMessage) {
-        String actualErrorMessage =loginPage.loginErrorField.getText();
-        Assert.assertEquals(expectedErrorMessage,actualErrorMessage);
-    }
-    @When("User enters {string} in the userName field")
-    public void user_enters_in_the_user_name_field(String incorrectUserName) {
-        sendText(incorrectUserName, loginPage.UserNameField);
-    }
-        @Then("System displays {string} as an error message")
+    @Then("System displays {string} as an error message")
     public void system_displays_as_an_error_message(String expectedErrorMessage) {
-        String actualErrorMessage= loginPage.invalidCredentialsField.getText();
-       Assert.assertEquals(expectedErrorMessage, actualErrorMessage);
+        String actualErrorMessage;
+        if (expectedErrorMessage.equals("Invalid credentials")) {
+            actualErrorMessage = loginPage.invalidCredentialsField.getText();
+            Assert.assertEquals(expectedErrorMessage, actualErrorMessage);
+        } else if (expectedErrorMessage.equals("Username cannot be empty")) {
+            actualErrorMessage=loginPage.loginErrorField.getText();
+            Assert.assertEquals(expectedErrorMessage,actualErrorMessage);
+        } else if (expectedErrorMessage.equals("Password is empty")) {
+            actualErrorMessage=loginPage.loginErrorField.getText();
+            Assert.assertEquals(expectedErrorMessage,actualErrorMessage);
+        }
     }
-        @When("User enters {string} in the password field")
-    public void user_enters_in_the_password_field(String incorrectPassword) {
-       sendText(incorrectPassword, loginPage.passwordField);
+    @When("User attempts to log in with incorrect credentials correct error message is displayed")
+    public void user_attempts_to_log_in_with_incorrect_credentials_correct_error_message_is_displayed(io.cucumber.datatable.DataTable dataTable) {
+        List<Map<String,String>> loginCredentials=dataTable.asMaps();
+        for (Map<String, String>loginCredential:loginCredentials){
+            sendText(loginCredential.get("userName"), loginPage.userNameField);
+            sendText(loginCredential.get("password"),loginPage.passwordField);
+            click(loginPage.loginButtonField);
+            String expectedErrorMessage=loginCredential.get("expectedErrorMessage");
+            String actualErrorMessage=loginPage.invalidCredentialsField.getText();
+            Assert.assertEquals(expectedErrorMessage,actualErrorMessage);
+        }
     }
-
-    @When("User corrects the userName field with a correct userName")
-    public void user_corrects_the_user_name_field_with_a_correct_user_name() throws IOException {
-       resetAndSendText(loginPage.UserNameField,ConfigReader.read("userName"));
+    @When("User resets with correct credentials")
+    public void user_resets_with_correct_credentials(io.cucumber.datatable.DataTable dataTable) {
+        List<Map<String,String>> loginCredentials=dataTable.asMaps();
+        for (Map<String, String>loginCredential:loginCredentials){
+            sendText(loginCredential.get("userName"), loginPage.userNameField);
+            sendText(loginCredential.get("password"),loginPage.passwordField);
+        }
     }
-    @When("User corrects the password field with a correct password")
-    public void user_corrects_the_password_field_with_a_correct_password() throws IOException {
-        resetAndSendText(loginPage.passwordField, ConfigReader.read("password"));
+    @Then("User is logged in successfully and can see the text {string}")
+    public void user_is_logged_in_successfully_and_can_see_the_text(String dashboard) {
+       Assert.assertEquals(dashboard,loginPage.dashboardSign.getText());
     }
-    @Then("User is logged in successfully")
-    //is it better to get currentUrl and check if it contains dashboard to confirm successfully login
-    //or get the locator of dashboard sign and confirm if its presented
-    public void user_is_logged_in_successfully() {
-        getWait().until(ExpectedConditions.visibilityOf(loginPage.dashboardSign));
-       Assert.assertTrue(loginPage.dashboardSign.isDisplayed());
-    }
-
 }

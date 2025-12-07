@@ -21,7 +21,7 @@ public class AddEmployeeSteps extends CommonMethods {
     @Given("User is logged and navigated to dashboardPage")
     public void user_is_logged_and_navigated_to_dashboard_page() throws IOException {
         openBrowserAndLaunchApplication();
-        sendText(ConfigReader.read("userName"),loginPage.UserNameField);
+        sendText(ConfigReader.read("userName"),loginPage.userNameField);
         sendText(ConfigReader.read("password"), loginPage.passwordField);
         click(loginPage.loginButtonField);
     }

@@ -1,45 +1,36 @@
 Feature: login validation for HRM portal
   Background:
-  Given User is on HRM login page
-  @Login
-  Scenario: Username field is empty
-    When User leaves userName filed empty
-    And User enters a valid password
-    And User clicks on the Login button
-    Then System displays "Username cannot be empty" near the userName field
+    Given User is navigated into HRMS Website
 
     @Login
-    Scenario: Password is empty
-      When User enters a valid userName
-      And User leaves a password empty
-      And User clicks on the Login button
-      Then System displays "Password is empty" near the password field
-
-      @Login
-      Scenario: User enters an invalid userName
-        When User enters "Ana" in the userName field
-        And User enters a valid password
-        And User clicks on the Login button
-        Then System displays "Invalid credentials" as an error message
-
-  @Login
-    #here I wanted to pass data through scenario outline, but couldn't figure out ho to pass correct credentials fro properties file
-  Scenario: User enters an invalid password
-    When User enters a valid userName
-    And User enters "Ani" in the password field
+  Scenario Outline: validating error messages for empty field
+    When User enters "<userName>" "<password>" as login credentials
     And User clicks on the Login button
-    Then System displays "Invalid credentials" as an error message
+    Then System displays "<errorMessage>" as an error message
+    Examples:
+      |userName|password|errorMessage|
+      |        |Hrm_user@123|Username cannot be empty|
+      |hrm_user|            |Password is empty       |
+      |Ana     |Hrm_user@123|Invalid credentials     |
+      |hrm_user|hrm-90      |Invalid credentials     |
+
 
     @Login
     Scenario: successful login after correcting invalid credentials
-      When User enters "Ana" in the userName field
-      And User enters "Ani" in the password field
+      When User attempts to log in with incorrect credentials correct error message is displayed
+      |userName|password    |expectedErrorMessage|
+      |Ana     |Hrm_user@123|Invalid credentials|
+      |hrm_user|hr-8        |Invalid credentials|
       And User clicks on the Login button
-      Then System displays "Invalid credentials" as an error message
-      When User corrects the userName field with a correct userName
-      And User corrects the password field with a correct password
+      When User resets with correct credentials
+      |userName|password|
+      |hrm_user|Hrm_user@123|
       And User clicks on the Login button
-      Then User is logged in successfully
+      Then User is logged in successfully and can see the text "Dashboard"
+
+
+
+
 
 
 

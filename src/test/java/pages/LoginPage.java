@@ -8,7 +8,7 @@ import utils.CommonMethods;
 public class LoginPage extends CommonMethods {
     //Implementing page objects using the Page Factory design pattern
     @FindBy (xpath = "//input[@name='username']" )
-    public WebElement UserNameField;
+    public WebElement userNameField;
     @FindBy(xpath = "//input[@name='password']")
     public WebElement passwordField;
     @FindBy(xpath = "//button[contains(@class,'login-button')]")
