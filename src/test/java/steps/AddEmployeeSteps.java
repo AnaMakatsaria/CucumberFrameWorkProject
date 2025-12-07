@@ -52,9 +52,6 @@ public class AddEmployeeSteps extends CommonMethods {
     public void employee_personal_details_is_displayed() {
         waitForElementToBeVisible(personalDetailPage.personalDetSign);
         Assert.assertTrue(personalDetailPage.personalDetSign.isDisplayed());
-        System.out.println(personalDetailPage.personalDetSign.getText());
-        System.out.println("expected"+expectedFirstName);
-        System.out.println("actual"+personalDetailPage.firstNameField.getAttribute("value"));
         fieldValueValidation(expectedFirstName, personalDetailPage.firstNameField);
         fieldValueValidation(getExpectedLastName, personalDetailPage.lastNameField);
     }

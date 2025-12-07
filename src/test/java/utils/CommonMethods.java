@@ -75,6 +75,7 @@ public void resetAndSendText(WebElement element, String correctText){
       element.sendKeys(correctText);
 }
 //this method validates by passing expected results, and element
+    //mot sure about attributeToBeNotEmpty() method
 public void fieldValueValidation(String expectedValue, WebElement element){
         getWait().until(ExpectedConditions.visibilityOf(element));
         getWait().until(ExpectedConditions.attributeToBeNotEmpty(element,"value"));

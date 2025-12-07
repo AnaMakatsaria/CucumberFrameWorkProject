@@ -35,16 +35,13 @@ public class LoginSteps extends CommonMethods {
     }
     @Then("System displays {string} as an error message")
     public void system_displays_as_an_error_message(String expectedErrorMessage) {
-        String actualErrorMessage;
+
         if (expectedErrorMessage.equals("Invalid credentials")) {
-            actualErrorMessage = loginPage.invalidCredentialsField.getText();
-            Assert.assertEquals(expectedErrorMessage, actualErrorMessage);
+           fieldValueValidation(expectedErrorMessage,loginPage.invalidCredentialsField);
         } else if (expectedErrorMessage.equals("Username cannot be empty")) {
-            actualErrorMessage=loginPage.loginErrorField.getText();
-            Assert.assertEquals(expectedErrorMessage,actualErrorMessage);
+            fieldValueValidation(expectedErrorMessage, loginPage.loginErrorField);
         } else if (expectedErrorMessage.equals("Password is empty")) {
-            actualErrorMessage=loginPage.loginErrorField.getText();
-            Assert.assertEquals(expectedErrorMessage,actualErrorMessage);
+            fieldValueValidation(expectedErrorMessage, loginPage.loginErrorField);
         }
     }
     @When("User attempts to log in with incorrect credentials correct error message is displayed")
@@ -55,8 +52,7 @@ public class LoginSteps extends CommonMethods {
             sendText(loginCredential.get("password"),loginPage.passwordField);
             click(loginPage.loginButtonField);
             String expectedErrorMessage=loginCredential.get("expectedErrorMessage");
-            String actualErrorMessage=loginPage.invalidCredentialsField.getText();
-            Assert.assertEquals(expectedErrorMessage,actualErrorMessage);
+            fieldValueValidation(expectedErrorMessage,loginPage.invalidCredentialsField);
         }
     }
     @When("User resets with correct credentials")
@@ -69,6 +65,6 @@ public class LoginSteps extends CommonMethods {
     }
     @Then("User is logged in successfully and can see the text {string}")
     public void user_is_logged_in_successfully_and_can_see_the_text(String dashboard) {
-       Assert.assertEquals(dashboard,loginPage.dashboardSign.getText());
+        fieldValueValidation(dashboard, loginPage.dashboardSign);
     }
 }

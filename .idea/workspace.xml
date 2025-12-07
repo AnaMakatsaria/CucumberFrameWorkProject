@@ -53,6 +53,7 @@
     "Cucumber Java.Feature: Login.executor": "Run",
     "Cucumber Java.Feature: login.executor": "Run",
     "Cucumber Java.Scenario: Username field is empty.executor": "Run",
+    "Cucumber Java.Scenario: adding the employee by providing ID.executor": "Run",
     "Cucumber Java.Scenario: successful login after correcting invalid credentials.executor": "Run",
     "Cucumber Java.Scenario: validating error messages for invalid credentials.executor": "Run",
     "JUnit.RunnerClass.executor": "Run",
@@ -70,15 +71,15 @@
       <recent name="C:\Users\akhar\IdeaProjects\CucumberFrameworkProject\src\test\resources\testData" />
     </key>
   </component>
-  <component name="RunManager" selected="Cucumber Java.Scenario: successful login after correcting invalid credentials">
-    <configuration name="Feature: AddEmployee" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.RunnerClass">
+    <configuration name="Feature: Login" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
-      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/AddEmployee.feature" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/Login.feature" />
       <option name="GLUE" value="steps" />
       <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
       <module name="CucumberFrameworkProject" />
       <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
-      <option name="SUGGESTED_NAME" value="Feature: AddEmployee" />
+      <option name="SUGGESTED_NAME" value="Feature: Login" />
       <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
       <extension name="coverage">
         <pattern>
@@ -90,14 +91,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Feature: Login" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+    <configuration name="Scenario: adding the employee by providing ID" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
       <option name="CUCUMBER_CORE_VERSION" value="5" />
-      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/Login.feature" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/AddEmployee.feature" />
       <option name="GLUE" value="steps" />
       <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
       <module name="CucumberFrameworkProject" />
-      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
-      <option name="SUGGESTED_NAME" value="Feature: Login" />
+      <option name="NAME_FILTER" value="^adding the employee by providing ID$" />
+      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter --name &quot;^adding the employee by providing ID$&quot;" />
+      <option name="SUGGESTED_NAME" value="Scenario: adding the employee by providing ID" />
       <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
       <extension name="coverage">
         <pattern>
@@ -166,11 +168,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RunnerClass" />
+        <item itemvalue="Cucumber Java.Scenario: adding the employee by providing ID" />
         <item itemvalue="Cucumber Java.Scenario: successful login after correcting invalid credentials" />
         <item itemvalue="Cucumber Java.Feature: Login" />
         <item itemvalue="Cucumber Java.Scenario: validating error messages for invalid credentials" />
-        <item itemvalue="JUnit.RunnerClass" />
-        <item itemvalue="Cucumber Java.Feature: AddEmployee" />
       </list>
     </recent_temporary>
   </component>
