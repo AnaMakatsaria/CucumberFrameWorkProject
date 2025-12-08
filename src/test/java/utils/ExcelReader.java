@@ -14,10 +14,7 @@ import java.util.*;
 public class ExcelReader {
     //we need to store the data in List of maps
     public static void main(String[] args) throws IOException {
-
-
         List<Map<String, String>> excelData = new ArrayList<>();
-
 
         //1) location of the file
         String path = "C:\\Users\\akhar\\IdeaProjects\\CucumberFrameworkProject\\src\\test\\resources\\testData\\ProjectB24.xlsx";
@@ -45,10 +42,8 @@ public class ExcelReader {
                 //getting values in form of a String to pass in maps
                 String value = row.getCell(j).toString();
                 rowMap.put(key, value);
-
             }
             excelData.add(rowMap);
-
         }
 
     }

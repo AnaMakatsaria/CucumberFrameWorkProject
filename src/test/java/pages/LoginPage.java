@@ -17,8 +17,7 @@ public class LoginPage extends CommonMethods {
     public WebElement loginErrorField;
     @FindBy(xpath = "//p[text()='Invalid credentials']")
     public WebElement invalidCredentialsField;
-    @FindBy(xpath = "//h6[text()='Dashboard']")
-    public WebElement dashboardSign;
+
     public LoginPage(){
         //pageFactory will initialize all @FindBy WebElements.
       PageFactory.initElements(driver,this);

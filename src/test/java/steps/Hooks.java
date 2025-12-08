@@ -1,18 +1,20 @@
 package steps;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import org.junit.After;
-import org.junit.Before;
 import utils.CommonMethods;
 
 import java.io.IOException;
 
 public class Hooks extends CommonMethods {
+    //pre-condition for all feature file
     @Before
-    public void start() throws IOException {
-        //pre-condition for every test case
+    public void  start() throws IOException {
         openBrowserAndLaunchApplication();
     }
+
+    // post-condition for all feature file
     @After
     public void end(){
         closeBrowser();

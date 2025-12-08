@@ -4,7 +4,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pages.DashboardPage;
 import utils.CommonMethods;
 import utils.ConfigReader;
 
@@ -20,21 +22,20 @@ public class AddEmployeeSteps extends CommonMethods {
 
     @Given("User is logged and navigated to dashboardPage")
     public void user_is_logged_and_navigated_to_dashboard_page() throws IOException {
-        openBrowserAndLaunchApplication();
-        sendText(ConfigReader.read("userName"),loginPage.userNameField);
-        sendText(ConfigReader.read("password"), loginPage.passwordField);
-        click(loginPage.loginButtonField);
+        login();
     }
+
     @When("User clicks on PIM option")
     public void user_clicks_on_pim_option() {
-       waitForElementToBeVisible(loginPage.dashboardSign);
+       waitForElementToBeVisible(dashboardPage.dashboardSign);
        click(addEmployeePage.pimOption);
     }
+
     @When("User clicks on add employee option")
     public void user_clicks_on_add_employee_option() {
-       getWait().until(ExpectedConditions.visibilityOf(addEmployeePage.addEmployeeOption));
-       click(addEmployeePage.addEmployeeOption);
+        click(addEmployeePage.addEmployeeOption);
     }
+
     @When("User enters first name {string} and middle name {string} and last name {string}")
     public void user_enters_first_name_and_middle_name_and_last_name(String firstName, String middleName, String lastName) {
         //storing the entered data into global variables to use for validation
@@ -44,33 +45,68 @@ public class AddEmployeeSteps extends CommonMethods {
         sendText(middleName, addEmployeePage.middleNameField);
         sendText(lastName, addEmployeePage.lastNameField);
     }
+
     @When("User clicks on the save button")
     public void user_clicks_on_the_save_button() {
         click(addEmployeePage.saveButton);
     }
+
     @Then("employee personal details is displayed")
     public void employee_personal_details_is_displayed() {
         waitForElementToBeVisible(personalDetailPage.personalDetSign);
         Assert.assertTrue(personalDetailPage.personalDetSign.isDisplayed());
-        fieldValueValidation(expectedFirstName, personalDetailPage.firstNameField);
-        fieldValueValidation(getExpectedLastName, personalDetailPage.lastNameField);
+        //validating expected and actual error messages using the method from common methods
+        fieldValueValidationByValue(expectedFirstName, personalDetailPage.firstNameField);
+        fieldValueValidationByValue(getExpectedLastName, personalDetailPage.lastNameField);
     }
+
     @Then("generated employee ID is not empty")
     public void generated_employee_id_is_not_empty() {
         waitForElementToBeVisible(addEmployeePage.idField);
-        String idValue=addEmployeePage.idField.getAttribute("value");
-        generatedEmpId=idValue;
-        Assert.assertFalse(idValue.isBlank());
-
+        generatedEmpId=addEmployeePage.idField.getAttribute("value");
+        Assert.assertFalse(generatedEmpId.isBlank());
     }
+
     @Then("user deletes the created employee")
     public void user_deletes_the_created_employee() {
-        click(dashboardPage.employeeList);
-        sendText(generatedEmpId,dashboardPage.employeeId);
-        click(dashboardPage.searchButton);
-        click(dashboardPage.checkboxToDeleteEmp);
-        click(dashboardPage.deleteEmp);
-        click(dashboardPage.confirmDeleteEmp);
+       deleteEmployeeByID(generatedEmpId);
     }
 
+    @When("User enters {string} {string} {string} field values")
+    public void user_enters_field_values(String firstName, String lastName, String ID) {
+        expectedFirstName = firstName;
+        getExpectedLastName = lastName;
+        sendText(firstName, addEmployeePage.firstNameField);
+        sendText(lastName, addEmployeePage.lastNameField);
+        sendText(ID,addEmployeePage.idField);
+        click(addEmployeePage.saveButton);
+        waitForElementToBeVisible(addEmployeePage.idField);
+        generatedEmpId = addEmployeePage.idField.getAttribute("value");
+    }
+
+    @When("User enters first name {string} and last name {string}")
+    public void user_enters_first_name_and_last_name(String firstName, String lastname) {
+       sendText(firstName,addEmployeePage.firstNameField);
+       sendText(lastname, addEmployeePage.lastNameField);
+    }
+
+    @Then("System should display {string} near the respective input fields {string}")
+    public void system_should_display_near_the_respective_input_fields(String expectedErrorMessage, String inputField) {
+        System.out.println("firstname "+addEmployeePage.firstNameError.getText());
+        System.out.println("lastName "+addEmployeePage.lstNameError.getText());
+        WebElement actualError;
+        switch (inputField){
+            case "firstName":
+                actualError= addEmployeePage.firstNameError;
+                break;
+            case "lastName":
+                actualError= addEmployeePage.lstNameError;
+                break;
+            default:
+               throw new RuntimeException( ("invalid input field"+inputField));
+        }
+        waitForElementToBeVisible(actualError);
+       //validating expected and actual error messages using the method from common methods
+        fieldValueValidationByText(expectedErrorMessage,actualError);
+    }
 }

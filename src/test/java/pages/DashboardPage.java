@@ -7,6 +7,8 @@ import org.openqa.selenium.support.PageFactory;
 import utils.CommonMethods;
 
 public class DashboardPage extends CommonMethods {
+    @FindBy(xpath = "//h6[text()='Dashboard']")
+    public WebElement dashboardSign;
     @FindBy(xpath = "//a[text()='Employee List']")
     public WebElement employeeList;
     @FindBy(xpath = "(//input[@class='oxd-input oxd-input--active'])[2]")

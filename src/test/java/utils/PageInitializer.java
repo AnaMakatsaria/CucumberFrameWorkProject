@@ -16,6 +16,5 @@ public class PageInitializer {
         addEmployeePage= new AddEmployeePage();
         dashboardPage=new DashboardPage();
         personalDetailPage=new PersonalDetailPage();
-
     }
 }

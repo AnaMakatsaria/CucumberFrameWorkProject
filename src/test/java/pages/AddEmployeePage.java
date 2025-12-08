@@ -20,6 +20,10 @@ public class AddEmployeePage extends CommonMethods {
     public WebElement idField;
     @FindBy(xpath = "//button[@type='submit']")
     public WebElement saveButton;
+    @FindBy(xpath = "//input[@name='firstName']/ancestor::div[contains(@class,'oxd-input-group')]//span[contains(@class,'oxd-input-field-error-message')]")
+    public WebElement firstNameError;
+    @FindBy(xpath = "//input[@name='lastName']/ancestor::div[contains(@class,'oxd-input-group')]//span[contains(@class,'oxd-input-field-error-message')]")
+    public WebElement lstNameError;
 
     public AddEmployeePage(){
         PageFactory.initElements(driver,this);
