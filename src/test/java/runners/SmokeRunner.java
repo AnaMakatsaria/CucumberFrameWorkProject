@@ -1,15 +1,15 @@
 package runners;
 
+import io.cucumber.core.backend.CucumberBackendException;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
-import utils.CommonMethods;
 
+//smoke runner to execute smoke test suite
 //JUnit which will be used by default will not understand or run Cucumber Feature files
 //so use Cucumber to execute them.
 @RunWith(Cucumber.class)
 //Here are the instructions for how to run them.
-
 @CucumberOptions(
         //path to the feature directory
         features = "src/test/resources/features/",
@@ -28,5 +28,6 @@ import utils.CommonMethods;
 
         plugin={"pretty", "html:target/cucumber.html", "json:target/cucumber.json"}
 )
-public class RunnerClass extends CommonMethods {
+public class SmokeRunner {
+
 }
