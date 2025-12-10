@@ -21,6 +21,7 @@ public class DashboardPage extends CommonMethods {
     public WebElement deleteEmp;
     @FindBy(xpath = "//button[contains(@class,'danger orangehrm-button-margin')]")
     public WebElement confirmDeleteEmp;
+
     public DashboardPage(){
         PageFactory.initElements(driver,this);
     }

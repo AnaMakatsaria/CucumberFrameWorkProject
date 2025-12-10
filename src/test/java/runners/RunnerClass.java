@@ -16,8 +16,10 @@ import utils.CommonMethods;
 
         //connecting feature files to steps with the glue keyword
         glue="steps",
+
         //dryRun provides missing step definition when true, and executes code when false
         dryRun = false,
+
         // true tags we can control, and filter test execution
         tags= "@AddEmployee",
 
@@ -25,7 +27,6 @@ import utils.CommonMethods;
         //html plugin creates an HTML report named cucumber.html inside the target folder.
         //json plugin tells Cucumber to store test execution results as a JSON file in the target/cucumber.json
         //This file is the Data Source for advanced reports and CI tools.
-
         plugin={"pretty", "html:target/cucumber.html", "json:target/cucumber.json"}
 )
 public class RunnerClass extends CommonMethods {

@@ -45,7 +45,6 @@ public class CommonMethods extends PageInitializer{
     }
 }
 
-
 public void login() throws IOException {
         sendText(ConfigReader.read("userName"),loginPage.userNameField);
         sendText(ConfigReader.read("password"),loginPage.passwordField);
@@ -101,12 +100,27 @@ public void fieldValueValidationByValue(String expectedValue, WebElement element
     Assert.assertEquals(expectedValue,actualValue);
 }
 
-    //this method validates by attribute Text, passing expected results as a String, and element(for the actual results)
+// overloading the above method With optional custom message
+    public void fieldValueValidationByValue(String expectedValue, WebElement element, String message){
+        getWait().until(ExpectedConditions.attributeToBeNotEmpty(element, "value"));
+        String actualValue = element.getAttribute("value");
+
+        Assert.assertEquals(message, expectedValue, actualValue);
+    }
+
+//this method validates by attribute Text, passing expected results as a String, and element(for the actual results)
     public void fieldValueValidationByText(String expectedValue, WebElement element){
         getWait().until(ExpectedConditions.visibilityOf(element));
         String actualValue=element.getText();
         Assert.assertEquals(expectedValue,actualValue);
     }
+
+// overloading the above method With optional custom message
+public void fieldValueValidationByText(String expectedValue, WebElement element, String Message){
+    getWait().until(ExpectedConditions.visibilityOf(element));
+    String actualValue=element.getText();
+    Assert.assertEquals(expectedValue,actualValue);
+}
 
 //method to delete employee by ID
     public void deleteEmployeeByID(String empId){

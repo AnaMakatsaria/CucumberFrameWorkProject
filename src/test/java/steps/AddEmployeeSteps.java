@@ -58,13 +58,14 @@ public class AddEmployeeSteps extends CommonMethods {
         //validating expected and actual error messages using the method from common methods
         fieldValueValidationByValue(expectedFirstName, personalDetailPage.firstNameField);
         fieldValueValidationByValue(getExpectedLastName, personalDetailPage.lastNameField);
+
     }
 
     @Then("generated employee ID is not empty")
     public void generated_employee_id_is_not_empty() {
         waitForElementToBeVisible(addEmployeePage.idField);
         generatedEmpId=addEmployeePage.idField.getAttribute("value");
-        Assert.assertFalse(generatedEmpId.isBlank());
+        Assert.assertTrue(generatedEmpId !=null &&!generatedEmpId.isBlank());
     }
 
     @Then("user deletes the created employee")
@@ -74,6 +75,7 @@ public class AddEmployeeSteps extends CommonMethods {
 
     @When("User enters {string} {string} {string} field values")
     public void user_enters_field_values(String firstName, String lastName, String ID) {
+        String autoIdBefore = addEmployeePage.idField.getAttribute("value");
         expectedFirstName = firstName;
         getExpectedLastName = lastName;
         sendText(firstName, addEmployeePage.firstNameField);
@@ -82,7 +84,8 @@ public class AddEmployeeSteps extends CommonMethods {
         click(addEmployeePage.saveButton);
         waitForElementToBeVisible(addEmployeePage.idField);
         generatedEmpId = addEmployeePage.idField.getAttribute("value");
-    }
+        Assert.assertEquals("ID was manually appended — it should be system-generated or fully replaceable.",autoIdBefore, generatedEmpId);
+     }
 
     @When("User enters first name {string} and last name {string}")
     public void user_enters_first_name_and_last_name(String firstName, String lastname) {

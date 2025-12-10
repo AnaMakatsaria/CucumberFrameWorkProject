@@ -12,7 +12,7 @@ Feature: Add Employee to HRMS Application
     And generated employee ID is not empty
     And user deletes the created employee
 
-  @AddEmployee @Smoke
+  @AddEmployee @Smoke @AddEmpId
   Scenario Outline: adding the employee by providing ID
     When User enters "<firstName>" "<lastName>" "<ID>" field values
     And User clicks on the save button

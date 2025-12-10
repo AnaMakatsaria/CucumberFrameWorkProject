@@ -16,7 +16,7 @@ public class Hooks extends CommonMethods {
     // post-condition for all feature file
     @After
     public void end(){
-        //adding screenshots to the reports at the end of the execution, before closing the browser
+    //adding screenshots to the reports at the end of the execution, before closing the browser
         closeBrowser();
     }
 }
