@@ -1,6 +1,6 @@
 Feature: login validation for HRM portal
 
-  @Login @Smoke
+  @login @smoke @regression
   Scenario Outline: validating error messages for empty field
     When User enters "<userName>" "<password>" as login credentials
     And User clicks on the Login button
@@ -12,7 +12,7 @@ Feature: login validation for HRM portal
       |Ana     |Hrm_user@123|Invalid credentials     |
       |hrm_user|hrm-90      |Invalid credentials     |
 
-    @Login @Smoke
+    @login @smoke @regression
     Scenario: successful login after correcting invalid credentials
       When User attempts to log in with incorrect credentials correct error message is displayed
       |userName|password    |expectedErrorMessage|

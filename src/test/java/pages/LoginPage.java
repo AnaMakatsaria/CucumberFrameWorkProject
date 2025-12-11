@@ -7,6 +7,7 @@ import utils.CommonMethods;
 
 public class LoginPage extends CommonMethods {
     //Implementing page objects using the Page Factory design pattern
+    //use @FindBy to define elements,
     @FindBy (xpath = "//input[@name='username']" )
     public WebElement userNameField;
     @FindBy(xpath = "//input[@name='password']")
@@ -18,8 +19,13 @@ public class LoginPage extends CommonMethods {
     @FindBy(xpath = "//p[text()='Invalid credentials']")
     public WebElement invalidCredentialsField;
 
-    public LoginPage(){
-        //pageFactory will initialize all @FindBy WebElements.
+    //the constructor is responsible for initialization only.
+    //When I create a new page object, the constructor runs and calls PageFactory.initElements(driver, this).
+       public LoginPage(){
+
+    /* PageFactory.initElements(driver, this) scans this page class for fields annotated with @FindBy.
+     * For each @FindBy, it uses the given WebDriver to locate the element in the DOM
+     * After that, initializes the fields by assigning real WebElement objects to them, so they’re no longer null. */
       PageFactory.initElements(driver,this);
     }
 }

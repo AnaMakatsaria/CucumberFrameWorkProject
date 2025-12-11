@@ -5,7 +5,7 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 import utils.CommonMethods;
 
-//JUnit which will be used by default will not understand or run Cucumber Feature files
+//because JUnit which will be used by default will not understand or run Cucumber Feature files,
 //so use Cucumber to execute them.
 @RunWith(Cucumber.class)
 //Here are the instructions for how to run them.
@@ -23,11 +23,13 @@ import utils.CommonMethods;
         // true tags we can control, and filter test execution
         tags= "@AddEmployee",
 
-        //pretty plugin simply formats output in the console, so it’s readable, and structured
+        //pretty plugin simply formats output in the console, so it’s readable, and structured (for local reference)
         //html plugin creates an HTML report named cucumber.html inside the target folder.
         //json plugin tells Cucumber to store test execution results as a JSON file in the target/cucumber.json
         //This file is the Data Source for advanced reports and CI tools.
-        plugin={"pretty", "html:target/cucumber.html", "json:target/cucumber.json"}
+        //Rerun plugin - after the test run → writes all failed scenarios paths in failed.txt file
+        //In the next run → reads that file and only reruns those failed tests
+        plugin={"pretty", "html:target/cucumber.html", "json:target/cucumber.json", "rerun:target/failed.txt"}
 )
 public class RunnerClass extends CommonMethods {
 }
