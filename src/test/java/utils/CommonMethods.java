@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 
 public class CommonMethods extends PageInitializer{
     public static WebDriver driver;
@@ -126,19 +127,20 @@ public void fieldValueValidationByText(String expectedValue, WebElement element,
     getWait().until(ExpectedConditions.visibilityOf(element));
     String actualValue=element.getText();
     Assert.assertEquals(expectedValue,actualValue);
+
+
 }
 
 //method to delete employee by ID
     public void deleteEmployeeByID(String empId){
         if (empId==null || empId.isBlank()){
-            System.out.println("Invalid employee ID");
-            return;
+            Assert.fail("Employee ID is null or blank. Deletion aborted.");
         }
         //navigate to employee list
-        click(dashboardPage.employeeList);
+        click(pimPage.employeeList);
         //search for employee ID
-        sendText(empId,dashboardPage.employeeId);
-        click(dashboardPage.searchButton);
+        sendText(empId, pimPage.idField);
+        click(pimPage.searchButton);
         //wait for checkbox next to employee id to be visible and then click
         waitForElementToBeVisible(dashboardPage.checkboxToDeleteEmp);
         click(dashboardPage.checkboxToDeleteEmp);
@@ -146,6 +148,16 @@ public void fieldValueValidationByText(String expectedValue, WebElement element,
         click(dashboardPage.deleteEmp);
         waitForElementToBeVisible(dashboardPage.confirmDeleteEmp);
         click(dashboardPage.confirmDeleteEmp);
+    }
+    // New overloaded method: delete multiple employees
+    public void deleteEmployeeByID(List<String> empIds) {
+        if (empIds == null || empIds.isEmpty()) {
+            Assert.fail("Employee ID list is null or empty. Deletion aborted.");
+        }
+        // Loop through the list and delete each employee
+        for (String empId : empIds) {
+            deleteEmployeeByID(empId);  // reuse single-ID method
+        }
     }
 
 //to select by index from the dropdown with the select tag

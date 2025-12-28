@@ -18,7 +18,6 @@ public class AddEmployeeSteps extends CommonMethods {
 // for later validating the data
     String expectedFirstName;
     String getExpectedLastName;
-    String generatedEmpId;
 
     @Given("User is logged and navigated to dashboardPage")
     public void user_is_logged_and_navigated_to_dashboard_page() throws IOException {
@@ -28,12 +27,12 @@ public class AddEmployeeSteps extends CommonMethods {
     @When("User clicks on PIM option")
     public void user_clicks_on_pim_option() {
        waitForElementToBeVisible(dashboardPage.dashboardSign);
-       click(addEmployeePage.pimOption);
+       click(pimPage.pimOption);
     }
 
     @When("User clicks on add employee option")
     public void user_clicks_on_add_employee_option() {
-        click(addEmployeePage.addEmployeeOption);
+        click(pimPage.addEmployeeOption);
     }
 
     @When("User enters first name {string} and middle name {string} and last name {string}")
@@ -41,14 +40,14 @@ public class AddEmployeeSteps extends CommonMethods {
         //storing the entered data into global variables to use for validation
         expectedFirstName=firstName;
         getExpectedLastName=lastName;
-        sendText(firstName, addEmployeePage.firstNameField);
-        sendText(middleName, addEmployeePage.middleNameField);
-        sendText(lastName, addEmployeePage.lastNameField);
+        sendText(firstName, pimPage.firstNameField);
+        sendText(middleName, pimPage.middleNameField);
+        sendText(lastName, pimPage.lastNameField);
     }
 
     @When("User clicks on the save button")
     public void user_clicks_on_the_save_button() {
-        click(addEmployeePage.saveButton);
+        click(pimPage.saveButton);
     }
 
     @Then("employee personal details is displayed")
@@ -63,47 +62,52 @@ public class AddEmployeeSteps extends CommonMethods {
 
     @Then("generated employee ID is not empty")
     public void generated_employee_id_is_not_empty() {
-        waitForElementToBeVisible(addEmployeePage.idField);
-        generatedEmpId=addEmployeePage.idField.getAttribute("value");
-        Assert.assertTrue(generatedEmpId !=null &&!generatedEmpId.isBlank());
+        waitForElementToBeVisible(pimPage.idField);
+        waitForElementToBeVisible(pimPage.idField);
+        String empId = pimPage.idField.getAttribute("value");
+        Assert.assertNotNull(empId, "Employee ID is null");
+        Assert.assertFalse("Employee ID is empty",empId.trim().isEmpty());
+        TestContext.employeeIDs.add(empId);   // store for cleanup
+        System.out.println("Saved employee ID = " + empId);
     }
 
     @Then("user deletes the created employee")
     public void user_deletes_the_created_employee() {
-       deleteEmployeeByID(generatedEmpId);
+       deleteEmployeeByID(TestContext.employeeIDs);
     }
 
     @When("User enters {string} {string} {string} field values")
     public void user_enters_field_values(String firstName, String lastName, String ID) {
-        String autoIdBefore = addEmployeePage.idField.getAttribute("value");
+        String autoIdBefore = pimPage.idField.getAttribute("value");
         expectedFirstName = firstName;
         getExpectedLastName = lastName;
-        sendText(firstName, addEmployeePage.firstNameField);
-        sendText(lastName, addEmployeePage.lastNameField);
-        sendText(ID,addEmployeePage.idField);
-        click(addEmployeePage.saveButton);
-        waitForElementToBeVisible(addEmployeePage.idField);
-        generatedEmpId = addEmployeePage.idField.getAttribute("value");
-        Assert.assertEquals("ID was manually appended — it should be system-generated or fully replaceable.",autoIdBefore, generatedEmpId);
+        sendText(firstName, pimPage.firstNameField);
+        sendText(lastName, pimPage.lastNameField);
+        sendText(ID,pimPage.idField);
+        click(pimPage.saveButton);
+        waitForElementToBeVisible(pimPage.idField);
+        TestContext.employeeIDs.add(pimPage.idField.getAttribute("value"));
+        String empId = pimPage.idField.getAttribute("value");
+        Assert.assertEquals("ID was manually appended — it should be system-generated or fully replaceable.",autoIdBefore,empId);
      }
 
     @When("User enters first name {string} and last name {string}")
     public void user_enters_first_name_and_last_name(String firstName, String lastname) {
-       sendText(firstName,addEmployeePage.firstNameField);
-       sendText(lastname, addEmployeePage.lastNameField);
+       sendText(firstName,pimPage.firstNameField);
+       sendText(lastname, pimPage.lastNameField);
     }
 
     @Then("System should display {string} near the respective input fields {string}")
     public void system_should_display_near_the_respective_input_fields(String expectedErrorMessage, String inputField) {
-        System.out.println("firstname "+addEmployeePage.firstNameError.getText());
-        System.out.println("lastName "+addEmployeePage.lstNameError.getText());
+        System.out.println("firstname "+pimPage.firstNameError.getText());
+        System.out.println("lastName "+pimPage.lstNameError.getText());
         WebElement actualError;
         switch (inputField){
             case "firstName":
-                actualError= addEmployeePage.firstNameError;
+                actualError= pimPage.firstNameError;
                 break;
             case "lastName":
-                actualError= addEmployeePage.lstNameError;
+                actualError= pimPage.lstNameError;
                 break;
             default:
                throw new RuntimeException( ("invalid input field"+inputField));

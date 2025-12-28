@@ -21,7 +21,7 @@ import utils.CommonMethods;
         dryRun = false,
 
         // true tags we can control, and filter test execution
-        tags= "@AddEmployee",
+        tags= "@empSearch",
 
         //pretty plugin simply formats output in the console, so it’s readable, and structured (for local reference)
         //html plugin creates an HTML report named cucumber.html inside the target folder.

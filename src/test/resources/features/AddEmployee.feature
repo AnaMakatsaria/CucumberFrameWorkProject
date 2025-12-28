@@ -6,7 +6,7 @@ Feature: Add Employee to HRMS Application
 
   @addEmployee @smoke @regression
   Scenario: adding an employee without providing ID
-    When User enters first name "Ana" and middle name "" and last name " Makatsraia"
+    When User enters first name "Ana" and middle name "" and last name " Makatsaria"
     And User clicks on the save button
     Then employee personal details is displayed
     And generated employee ID is not empty
